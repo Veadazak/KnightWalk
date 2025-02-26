@@ -13,7 +13,7 @@ int main()
     std::random_device rd;
     std::default_random_engine engine{rd()};
     std::uniform_int_distribution<int> rdmS{100, 1000};
-    std::uniform_int_distribution<int> rdmT{1,2};
+    std::uniform_int_distribution<int> rdmT{1, 2};
 
     const int windowWidth{1400};
     const int windowHeight{1000};
@@ -28,7 +28,7 @@ int main()
 
     Character knight{windowWidth, windowHeight};
 
-    // ----------------------- Tiles generation -----------------------
+    // ---------------------------------------------- Tiles generation ----------------------------------------------
     std::vector<Prop> tiles;
     std::vector<Prop> grass;
 
@@ -49,13 +49,12 @@ int main()
             }
         }
     }
-    //-----------------------Enemy generation-----------------------
+    //---------------------------------------------- Enemy generation ----------------------------------------------
     std::vector<Enemy> enemies;
-    for (int i = 0; i < 30; i++)
+    for (int i = 0; i < 15; i++)
     {
-        Enemy enemy{Vector2{rdmS(engine), rdmS(engine)}, rdmT(engine)};
-        enemies.push_back(enemy);
-        //enemiesP.push_back(&enemy);
+        Enemy enemys{Vector2{rdmS(engine), rdmS(engine)}, rdmT(engine)};
+        enemies.push_back(enemys);
     }
     std::vector<Enemy *> enemiesP;
     for (auto &enemy : enemies)
@@ -66,7 +65,7 @@ int main()
     {
         enemy->setTarget(&knight);
     }
-    // ----------------------- Drawing -----------------------
+    // ---------------------------------------------- Drawing ----------------------------------------------
     SetTargetFPS(60);
     while (!WindowShouldClose())
     {
@@ -104,10 +103,13 @@ int main()
 
         for (auto tile : tiles)
         {
+            //---------------------------------------------- Check tile ----------------------------------------------
             if (CheckCollisionRecs(tile.getCollissionRec(knight.getWorldPos()), knight.getCollissionRec()) && tile.passable == false)
             {
                 knight.undoMovement();
             }
+            //---------------------------------------------- Check enemys ----------------------------------------------
+            
         }
         for (auto enemy : enemiesP)
         {
